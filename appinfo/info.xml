@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
-    <id>sharingpath</id>
-    <name>Sharing Path</name>
+    <id>sharepath</id>
+    <name>Share Path</name>
     <summary>Files sharing use stored path. Easy share, multi-use.</summary>
     <description><![CDATA[
 # Sharing Path  [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/F1F51I62J)
@@ -11,7 +11,7 @@ Sharing Path enhance files sharing usage. Easy share, multi-use.
 
 Now you can share your files by path format like below:
 
-`https://youre-domain/nextcloud/apps/sharingpath/username/shared-file-stored-path`
+`https://youre-domain/nextcloud/apps/sharepath/username/shared-file-stored-path`
 
 In this way, you can use your nextcloud as CDN origin storage 🌩.
 
@@ -35,7 +35,7 @@ There are some settings in `Settings` > `Sharing`(Administration & Personal) > `
     <licence>agpl</licence>
     <author mail="j4fdot@qq.com">Rookie0</author>
     <author homepage="https://github.com/arundne">arundne (maintenance fork)</author>
-    <namespace>SharingPath</namespace>
+    <namespace>SharePath</namespace>
     <category>files</category>
     <category>tools</category>
     <website>https://github.com/arundne/nextcloud-sharing-path</website>
@@ -48,7 +48,7 @@ There are some settings in `Settings` > `Sharing`(Administration & Personal) > `
     </dependencies>
 
     <settings>
-        <admin>OCA\SharingPath\Settings\Admin</admin>
-        <personal>OCA\SharingPath\Settings\Personal</personal>
+        <admin>OCA\SharePath\Settings\Admin</admin>
+        <personal>OCA\SharePath\Settings\Personal</personal>
     </settings>
 </info>

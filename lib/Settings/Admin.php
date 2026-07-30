@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\SharingPath\Settings;
+namespace OCA\SharePath\Settings;
 
-use OCA\SharingPath\AppInfo\Application;
+use OCA\SharePath\AppInfo\Application;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IL10N;

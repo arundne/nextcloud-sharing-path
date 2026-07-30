@@ -1,6 +1,6 @@
 <?php
 
-script(\OCA\SharingPath\AppInfo\Application::APP_ID, 'settings');
+script(\OCA\SharePath\AppInfo\Application::APP_ID, 'settings');
 
 ?>
 
@@ -10,11 +10,11 @@ script(\OCA\SharingPath\AppInfo\Application::APP_ID, 'settings');
     <p>
         <input type="checkbox"
                name="sharing_path_enabled"
-               id="enableSharingPath"
+               id="enableSharePath"
                class="checkbox"
             <?php if ($_['enabled'] === 'yes' || (! $_['enabled'] && $_['default_enabled'] === 'yes')) print_unescaped('checked="checked"'); ?>
         />
-        <label for="enableSharingPath">
+        <label for="enableSharePath">
             <?php p($l->t('Enable') . ' ' . $l->t('sharing') . ' ' . $l->t('path')); ?>
         </label>
         <span class="settings-hint"><?php if ($_['default_enabled'] === 'yes' && ! $_['enabled']) print_unescaped('Set by admin'); ?></span>
@@ -25,7 +25,7 @@ script(\OCA\SharingPath\AppInfo\Application::APP_ID, 'settings');
             <?php p($l->t('Copy') . ' ' . $l->t('prefix')); ?>
         </label>
         <input type="url"
-               placeholder="https://nextcloud.host/apps/sharingpath/uid"
+               placeholder="https://nextcloud.host/apps/sharepath/uid"
                id="copyPrefix"
                class="text"
                maxlength="500"

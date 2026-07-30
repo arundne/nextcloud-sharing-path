@@ -1,17 +1,20 @@
 
-# Nextcloud Sharing Path — maintained fork
+# Share Path (`sharepath`) — maintained fork of Sharing Path
 
 > **This is a maintained fork of [rookie0/nextcloud-sharing-path](https://github.com/rookie0/nextcloud-sharing-path)
 > with compatibility fixes for Nextcloud 25 – 34, tested against Nextcloud 33.0.6 (Hub 26 Winter).**
 > Upstream has been unmaintained since 2022 and breaks with an `Internal Server Error`
 > on Nextcloud 33 (it still uses the private `OC_Response` class that was removed from the server).
 > All credit for the original app goes to [Rookie0](https://github.com/rookie0).
+>
+> Because the original `sharingpath` App Store entry is not ours to publish under, the sources
+> here declare the app id **`sharepath`** (see [Two app ids](#two-app-ids) below).
 
 Nextcloud app to enhance files sharing usage. Easy share, multi-use.
 
 Share your files by path format like below:
 
-`https://your-domain/nextcloud/apps/sharingpath/username/shared-file-stored-path`
+`https://your-domain/nextcloud/apps/sharepath/username/shared-file-stored-path`
 
 In this way, you can use your Nextcloud as CDN origin storage 🌩.
 
@@ -39,15 +42,16 @@ refuses app downgrades.
 
 ## Two app ids
 
-This code base ships under two app ids, built by `./build.sh`:
+`./build.sh` produces two tarballs from this single code base:
 
-| App id | URL | Purpose |
-| --- | --- | --- |
-| `sharingpath` | `/apps/sharingpath/<user>/<path>` | The original app id. Keeps existing links working — requires the App Store entry to be transferred (see [rookie0#59](https://github.com/rookie0/nextcloud-sharing-path/issues/59)). |
-| `sharepath` | `/apps/sharepath/<user>/<path>` | An independent app id that can be published without waiting for that transfer. |
+| App id | URL | Built from | Purpose |
+| --- | --- | --- | --- |
+| `sharepath` | `/apps/sharepath/<user>/<path>` | the sources as they are | Our own app id — this is what gets published on the App Store. |
+| `sharingpath` | `/apps/sharingpath/<user>/<path>` | generated variant | The original app id, kept ready so existing links can keep working if the original App Store entry is ever transferred to us (see [rookie0#59](https://github.com/rookie0/nextcloud-sharing-path/issues/59)). |
 
-They are functionally identical and can be installed side by side — the
-variant carries its own PHP namespace so the two never collide.
+They are functionally identical and can be installed side by side — the generated
+variant carries its own PHP namespace (`OCA\SharingPath` instead of `OCA\SharePath`)
+so the two never collide in the class loader.
 
 
 ## Installation

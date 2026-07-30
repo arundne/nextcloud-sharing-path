@@ -4,14 +4,16 @@
 #
 # Two app ids are shipped from this single code base:
 #
-#   sharingpath  the original app id, kept so existing /apps/sharingpath/... URLs
-#                keep working once the App Store entry is under our control
-#   sharepath    an independent app id, publishable without waiting for the
-#                transfer of the original entry
+#   sharepath    what the sources declare — our own app id, published on the
+#                App Store under this name
+#   sharingpath  the original app id, generated as a variant so existing
+#                /apps/sharingpath/... URLs can keep working should the original
+#                App Store entry ever be transferred to us
 #
-# The variant also gets its own PHP namespace. Both apps can end up installed on
-# the same instance (the old sharingpath is still present on existing setups),
-# and two apps declaring OCA\SharingPath\… would collide in the class loader.
+# The generated variant also gets its own PHP namespace. Both apps can end up
+# installed on the same instance (the old sharingpath is still present on
+# existing setups), and two apps declaring OCA\SharePath\… would collide in the
+# class loader.
 #
 set -euo pipefail
 
@@ -40,18 +42,18 @@ build_variant() {
 	mkdir -p "$dir"
 	copy_app "$dir"
 
-	if [ "$app_id" != "sharingpath" ]; then
+	if [ "$app_id" != "sharepath" ]; then
 		# The app id appears as a literal in the routes the JS calls, in the
 		# APP_ID constant and in info.xml. Repository URLs contain
 		# "nextcloud-sharing-path" (hyphenated) and are therefore untouched.
 		find "$dir/lib" "$dir/js" "$dir/appinfo" "$dir/templates" -type f \
-			-exec sed -i '' "s/sharingpath/$app_id/g" {} +
-		# js/ is included here on purpose: the DOM id enableSharingPath is shared
+			-exec sed -i '' "s/sharepath/$app_id/g" {} +
+		# js/ is included here on purpose: the DOM id enableSharePath is shared
 		# between the settings template and settings.js, so both must be renamed
 		# in lockstep or the settings toggle silently stops working.
 		find "$dir/lib" "$dir/js" "$dir/appinfo" "$dir/templates" -type f \
-			-exec sed -i '' "s/SharingPath/$namespace/g" {} +
-		sed -i '' "s|<name>Sharing Path</name>|<name>$app_name</name>|" "$dir/appinfo/info.xml"
+			-exec sed -i '' "s/SharePath/$namespace/g" {} +
+		sed -i '' "s|<name>Share Path</name>|<name>$app_name</name>|" "$dir/appinfo/info.xml"
 	fi
 
 	tar czf "$OUT/$app_id-$VERSION.tar.gz" -C "$WORK/$app_id" "$app_id"
@@ -59,5 +61,5 @@ build_variant() {
 }
 
 echo "Building version $VERSION:"
-build_variant sharingpath "Sharing Path" SharingPath
 build_variant sharepath "Share Path" SharePath
+build_variant sharingpath "Sharing Path" SharingPath

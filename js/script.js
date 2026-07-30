@@ -27,10 +27,10 @@
     return document.documentElement.lang || 'en';
   }
 
-  function buildSharingPath(davPath) {
+  function buildSharePath(davPath) {
     // davPath always starts with '/'
     // NC 33 removed OC.getProtocol/OC.getHost, location.origin is equivalent
-    let prefix = window.location.origin + '/apps/sharingpath/';
+    let prefix = window.location.origin + '/apps/sharepath/';
     // admin setting
     prefix = settings.default_copy_prefix || prefix;
     prefix = prefix.endsWith('/') ? prefix : (prefix + '/');
@@ -157,7 +157,7 @@
       },
       exec: function(arg) {
         const node = nodeFromExecArg(arg);
-        return copyToClipboard(buildSharingPath(node.path)).then(function() {
+        return copyToClipboard(buildSharePath(node.path)).then(function() {
           return true;
         }).catch(function() {
           return false;
@@ -176,7 +176,7 @@
       iconClass: 'icon-public',
       actionHandler: function(filename, context) {
         const davPath = (context.dir === '/' ? '' : context.dir) + '/' + filename;
-        copyToClipboard(buildSharingPath(davPath));
+        copyToClipboard(buildSharePath(davPath));
       },
     });
   }
@@ -185,8 +185,8 @@
 
   function init() {
     const url = (window.OC && typeof OC.generateUrl === 'function')
-      ? OC.generateUrl('/apps/sharingpath/settings')
-      : '/index.php/apps/sharingpath/settings';
+      ? OC.generateUrl('/apps/sharepath/settings')
+      : '/index.php/apps/sharepath/settings';
     fetch(url, {
       headers: {
         'requesttoken': (window.OC && OC.requestToken) || document.head.dataset.requesttoken || '',
@@ -201,7 +201,7 @@
         registerLegacyAction();
       }
     }).catch(function(error) {
-      console.warn('sharingpath: could not load settings', error);
+      console.warn('sharepath: could not load settings', error);
     });
   }
 

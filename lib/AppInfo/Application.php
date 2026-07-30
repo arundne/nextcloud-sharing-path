@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\SharingPath\AppInfo;
+namespace OCA\SharePath\AppInfo;
 
-use OCA\SharingPath\Controller\PathController;
+use OCA\SharePath\Controller\PathController;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -21,7 +21,7 @@ use Psr\Log\LoggerInterface;
 class Application extends App implements IBootstrap
 {
 
-    const APP_ID = 'sharingpath';
+    const APP_ID = 'sharepath';
 
     const SETTINGS_KEY_DEFAULT_ENABLE         = 'default_enabled';
     const SETTINGS_KEY_ENABLE                 = 'enabled';

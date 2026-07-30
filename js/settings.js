@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', function(event) {
-  $('#enableSharingPath').bind('change', function() {
-    $.ajax(OC.generateUrl('/apps/sharingpath/settings/enable'), {
+  $('#enableSharePath').bind('change', function() {
+    $.ajax(OC.generateUrl('/apps/sharepath/settings/enable'), {
       type: 'PUT',
       data: {
         type: $('#type').val(),
@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', function(event) {
 
   $('#copyPrefix').on('blur keydown', function(e) {
     if (e.type === 'blur' || (e.type === 'keydown' && e.keyCode === 13)) {
-      $.ajax(OC.generateUrl('/apps/sharingpath/settings/copyprefix'), {
+      $.ajax(OC.generateUrl('/apps/sharepath/settings/copyprefix'), {
         type: 'PUT',
         data: {
           type: $('#type').val(),
@@ -23,7 +23,7 @@ window.addEventListener('DOMContentLoaded', function(event) {
 
   $('#sharingFolder').on('blur keydown', function(e) {
     if (e.type === 'blur' || (e.type === 'keydown' && e.keyCode === 13)) {
-      $.ajax(OC.generateUrl('/apps/sharingpath/settings/sharingfolder'), {
+      $.ajax(OC.generateUrl('/apps/sharepath/settings/sharingfolder'), {
         type: 'PUT',
         data: {
           type: $('#type').val(),

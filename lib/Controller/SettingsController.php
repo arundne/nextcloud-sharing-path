@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\SharingPath\Controller;
+namespace OCA\SharePath\Controller;
 
-use OCA\SharingPath\AppInfo\Application;
+use OCA\SharePath\AppInfo\Application;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
