@@ -2,6 +2,26 @@
 # Change logs
 
 
+## 0.7.2 - 2026-08-06
+
+**Packaging fix — 0.7.1 could not be installed from the App Store.**
+
+- The release archives were built on macOS, where `tar` stores extended attributes as
+  AppleDouble `._name` entries and defaults to the pax format, which adds `PaxHeader/…`
+  entries. `tar` hides both when listing an archive, but Nextcloud's PHP extractor writes
+  them out as real files and then rejects the app with
+  `Extracted app sharepath has more than 1 folder`. The build now sets `COPYFILE_DISABLE`,
+  strips extended attributes and writes plain ustar archives.
+- **The 0.7.1 archives also contained the app's private signing key.** The build copied the
+  whole working tree and filtered by exclusions, and `certificate/` was not on that list —
+  `.gitignore` keeps a file out of git, not out of the release. The archives were removed from
+  the release page, the key was replaced and the old certificate revoked
+  (nextcloud/app-certificate-requests). The key was never committed to this repository, and
+  0.7.0 predates it. The build now works from an explicit allowlist of what belongs in an app,
+  so nothing can leak in by default again.
+- No functional changes; the application code is identical to 0.7.1.
+
+
 ## 0.7.1 - 2026-07-29
 
 **Security fix.** Please update.

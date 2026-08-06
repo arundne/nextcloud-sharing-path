@@ -19,6 +19,13 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
+# macOS tar would otherwise store extended attributes as AppleDouble "._name"
+# entries and use the pax format, which adds "PaxHeader/…" entries. Both are
+# invisible to tar itself but are extracted as real files by Nextcloud's PHP
+# extractor, which then rejects the archive with "has more than 1 folder".
+export COPYFILE_DISABLE=1
+TAR_FORMAT=ustar
+
 VERSION=$(sed -n 's/.*<version>\(.*\)<\/version>.*/\1/p' appinfo/info.xml)
 OUT="$PWD/build"
 WORK=$(mktemp -d)
@@ -26,13 +33,23 @@ trap 'rm -rf "$WORK"' EXIT
 
 mkdir -p "$OUT"
 
-# Files that ship inside the app directory; tests and dev tooling stay out.
+# What ships inside the app directory — an explicit allowlist.
+#
+# This used to be a list of exclusions, which silently shipped the signing key
+# once certificate/ appeared in the working copy: .gitignore keeps a file out of
+# git, not out of rsync. Anything not named here stays out of the release, so a
+# new directory can never leak by default.
+APP_CONTENTS=(appinfo lib js img templates COPYING README.md CHANGELOG.md composer.json)
+
 copy_app() {
-	rsync -a \
-		--exclude '.git' --exclude '.gitignore' --exclude '.travis.yml' \
-		--exclude 'tests' --exclude 'phpunit.xml' --exclude 'phpunit.integration.xml' \
-		--exclude 'Makefile' --exclude 'build.sh' --exclude 'build' \
-		./ "$1/"
+	local target="$1" item
+	for item in "${APP_CONTENTS[@]}"; do
+		if [ -e "$item" ]; then
+			rsync -a "$item" "$target/"
+		else
+			echo "  warning: $item is missing from the working copy" >&2
+		fi
+	done
 }
 
 build_variant() {
@@ -56,7 +73,10 @@ build_variant() {
 		sed -i '' "s|<name>Share Path</name>|<name>$app_name</name>|" "$dir/appinfo/info.xml"
 	fi
 
-	tar czf "$OUT/$app_id-$VERSION.tar.gz" -C "$WORK/$app_id" "$app_id"
+	# Drop any extended attributes the working copy picked up before archiving.
+	xattr -rc "$dir" 2>/dev/null || true
+
+	tar --format="$TAR_FORMAT" -czf "$OUT/$app_id-$VERSION.tar.gz" -C "$WORK/$app_id" "$app_id"
 	echo "  $OUT/$app_id-$VERSION.tar.gz"
 }
 
